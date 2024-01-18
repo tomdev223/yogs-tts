@@ -1,0 +1,7 @@
+
+# Local
+.env
+dist
+.webpack
+.serverless/**/*.zip
+node_modules
