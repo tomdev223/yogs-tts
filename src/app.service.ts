@@ -98,6 +98,7 @@ export class AppService {
       JSON.stringify({ text: sanitized_message }),
       'utf8',
     );
+    const startTime = Date.now(); // Start time recording
 
     // Generate TTS out file
     const { stdout, stderr } = await execPromise(
@@ -191,6 +192,9 @@ export class AppService {
           `./piper_cache/${outFile}-${flip_flop ? 'a' : 'b'}.wav`,
         ),
       );
+      const endTime = Date.now(); // End time recording
+      const renderingTime = endTime - startTime; // Calculate rendering time
+      this.logger.log(`WAV file rendering time: ${renderingTime} ms`); // Log rendering time
       return new StreamableFile(file);
     } else {
       // If file generation failed, send a warning- this isn't supposed to happen
