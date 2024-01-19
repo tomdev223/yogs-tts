@@ -26,7 +26,7 @@ export class AppController {
     return this.appService.clearTTSCache();
   }
 
-  @Get('/tts')
+  @Post('/tts')
   async getTTS(
     @Query('model') model: string,
     @Query('pitch') pitch: string,
