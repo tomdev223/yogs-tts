@@ -112,9 +112,13 @@ export class AppService {
     // Send out file if it exists
     if (fs.existsSync(`./piper_cache/${outFile}.mp3`)) {
       // Use ffmpeg to apply pitch and filters
+      // await execPromise(
+      //   `ffmpeg -y -i ./piper_cache/${outFile}.mp3 -af asetrate=${modelRate}*${num_pitch},aresample=${modelRate},atempo=1/${num_pitch} ./piper_cache/${outFile}-b.mp3`,
+      // );
       await execPromise(
-        `ffmpeg -y -i ./piper_cache/${outFile}.mp3 -af asetrate=${modelRate}*${num_pitch},aresample=${modelRate},atempo=1/${num_pitch} ./piper_cache/${outFile}-b.mp3`,
+        `ffmpeg -y -i ./piper_cache/${outFile}.mp3 -af asetrate=${modelRate}*${num_pitch},aresample=${modelRate},atempo=1/${num_pitch} -codec:a libmp3lame -q:a 2 ./piper_cache/${outFile}-b.mp3`
       );
+      
       let flip_flop = false; // Tosses between file-a and file-b
       if (body.filters?.lizard) {
         await execPromise(
