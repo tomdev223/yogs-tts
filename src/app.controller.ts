@@ -34,6 +34,14 @@ export class AppController {
     @Res({ passthrough: true }) response?: Response,
     @Headers('Authorization') auth?: string,
   ): Promise<StreamableFile | string> {
-    return await this.appService.getTTS(model, pitch, body, response, auth);
+    // return await this.appService.getTTS(model, pitch, body, response, auth);
+
+    const ttsResult = await this.appService.getTTS(model, pitch, body, response, auth);
+
+    if (ttsResult instanceof StreamableFile) {
+      response.setHeader('Content-Type', 'audio/mpeg');
+    }
+
+    return ttsResult;
   }
 }
