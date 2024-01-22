@@ -221,7 +221,7 @@ export class AppService {
       const file = fs.createReadStream(
         join(
           process.cwd(),
-          `./piper_cache/${outFile}-${flip_flop ? 'a' : 'b'}.wav`,
+          `./piper_cache/${outFile}-${flip_flop ? 'a' : 'b'}.mp3`,
         ),
       );
       let endTime = Date.now(); // End time recording
