@@ -115,11 +115,10 @@ export class AppService {
       await execPromise(
         `ffmpeg -y -i ./piper_cache/${outFile}.wav -af asetrate=${modelRate}*${num_pitch},aresample=${modelRate},atempo=1/${num_pitch} ./piper_cache/${outFile}-b.wav`,
       );
-      // await execPromise(
-      //   `ffmpeg -y -i ./piper_cache/${outFile}.wav -af asetrate=44100*${num_pitch},aresample=44100,atempo=1/${num_pitch} -codec:a libwavlame -b:a 128k ./piper_cache/${outFile}-b.wav`
-      // );
-      
-      
+      await execPromise(
+        `ffmpeg -i ./piper_cache/${outFile}-${flip_flop ? 'a' : 'b'}.wav -codec:a libmp3lame -qscale:a 2 ./piper_cache/${outFile}.mp3`
+    );
+    
       let flip_flop = false; // Tosses between file-a and file-b
       if (body.filters?.lizard) {
         await execPromise(
@@ -129,6 +128,10 @@ export class AppService {
             flip_flop ? 'b' : 'a'
           }.wav`,
         );
+        await execPromise(
+          `ffmpeg -i ./piper_cache/${outFile}-${flip_flop ? 'a' : 'b'}.wav -codec:a libmp3lame -qscale:a 2 ./piper_cache/${outFile}.mp3`
+      );
+      
         flip_flop = !flip_flop;
       }
       if (body.filters?.alien) {
@@ -139,6 +142,10 @@ export class AppService {
             flip_flop ? 'b' : 'a'
           }.wav`,
         );
+        await execPromise(
+          `ffmpeg -i ./piper_cache/${outFile}-${flip_flop ? 'a' : 'b'}.wav -codec:a libmp3lame -qscale:a 2 ./piper_cache/${outFile}.mp3`
+      );
+      
         flip_flop = !flip_flop;
       }
       if (body.filters?.ethereal) {
@@ -149,6 +156,10 @@ export class AppService {
             flip_flop ? 'b' : 'a'
           }.wav`,
         );
+        await execPromise(
+          `ffmpeg -i ./piper_cache/${outFile}-${flip_flop ? 'a' : 'b'}.wav -codec:a libmp3lame -qscale:a 2 ./piper_cache/${outFile}.mp3`
+      );
+      
         flip_flop = !flip_flop;
       }
       if (body.filters?.robotic) {
@@ -159,6 +170,10 @@ export class AppService {
             flip_flop ? 'b' : 'a'
           }.wav`,
         );
+        await execPromise(
+          `ffmpeg -i ./piper_cache/${outFile}-${flip_flop ? 'a' : 'b'}.wav -codec:a libmp3lame -qscale:a 2 ./piper_cache/${outFile}.mp3`
+      );
+      
         flip_flop = !flip_flop;
       }
       if (body.filters?.masked) {
@@ -169,6 +184,10 @@ export class AppService {
             flip_flop ? 'b' : 'a'
           }.wav`,
         );
+        await execPromise(
+          `ffmpeg -i ./piper_cache/${outFile}-${flip_flop ? 'a' : 'b'}.wav -codec:a libmp3lame -qscale:a 2 ./piper_cache/${outFile}.mp3`
+      );
+      
         flip_flop = !flip_flop;
       }
       if (body.filters?.robocop) {
@@ -179,6 +198,10 @@ export class AppService {
             flip_flop ? 'b' : 'a'
           }.wav`,
         );
+        await execPromise(
+          `ffmpeg -i ./piper_cache/${outFile}-${flip_flop ? 'a' : 'b'}.wav -codec:a libmp3lame -qscale:a 2 ./piper_cache/${outFile}.mp3`
+      );
+      
         flip_flop = !flip_flop;
       }
       if (body.filters?.radio) {
@@ -189,6 +212,10 @@ export class AppService {
             flip_flop ? 'b' : 'a'
           }.wav`,
         );
+        await execPromise(
+          `ffmpeg -i ./piper_cache/${outFile}-${flip_flop ? 'a' : 'b'}.wav -codec:a libmp3lame -qscale:a 2 ./piper_cache/${outFile}.mp3`
+      );
+      
         flip_flop = !flip_flop;
       }
       const file = fs.createReadStream(
