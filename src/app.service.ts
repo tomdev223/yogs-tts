@@ -197,7 +197,8 @@ export class AppService {
       let renderingTime = endTime - startTime; // Calculate rendering time
       
       this.logger.warn(`WAV file rendering time: ${renderingTime} ms`); // Log rendering time
-      return new StreamableFile(file);
+      // return new StreamableFile(file);
+      return file;
     } else {
       // If file generation failed, send a warning- this isn't supposed to happen
       this.logger.warn(`${stderr} - ${stdout}`);
