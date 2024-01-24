@@ -80,18 +80,18 @@ export class AppService {
       `${sanitized_model}${sanitized_message}${num_pitch}${filterKeys}`,
     );
     // If the out file is in our cache, just grab it
-    if (fs.existsSync(`./piper_cache/${outFile}-a.wav`)) {
-      const file = fs.createReadStream(
-        join(process.cwd(), `./piper_cache/${outFile}-a.wav`),
-      );
-      return new StreamableFile(file);
-    }
-    if (fs.existsSync(`./piper_cache/${outFile}-b.wav`)) {
-      const file = fs.createReadStream(
-        join(process.cwd(), `./piper_cache/${outFile}-b.wav`),
-      );
-      return new StreamableFile(file);
-    }
+    // if (fs.existsSync(`./piper_cache/${outFile}-a.wav`)) {
+    //   const file = fs.createReadStream(
+    //     join(process.cwd(), `./piper_cache/${outFile}-a.wav`),
+    //   );
+    //   return new StreamableFile(file);
+    // }
+    // if (fs.existsSync(`./piper_cache/${outFile}-b.wav`)) {
+    //   const file = fs.createReadStream(
+    //     join(process.cwd(), `./piper_cache/${outFile}-b.wav`),
+    //   );
+    //   return new StreamableFile(file);
+    // }
 
     fs.writeFileSync(
       `./piper_cache/${outFile}.json`,
