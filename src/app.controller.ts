@@ -41,7 +41,7 @@ export class AppController {
     if (ttsResult instanceof StreamableFile) {
       response.setHeader('Content-Type', 'audio/wav');
     }
-
-    return ttsResult;
+    ttsResult.pipe(response);
+    // return ttsResult;
   }
 }
