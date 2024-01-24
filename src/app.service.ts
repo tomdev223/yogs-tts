@@ -149,7 +149,11 @@ export class AppService {
       }
       if (body.filters?.robotic) {
         await execPromise(
-          `ffmpeg -y -f wav -i ./piper_cache/${outFile}-${flip_flop ? 'a' : 'b'}.wav -i ./sfx/SynthImpulse.wav -i ./sfx/RoomImpulse.wav -filter_complex "[0] aresample=${modelRate} [re_1]; [re_1] apad=whole_dur=2 [in_1]; [in_1] asplit=2 [in_1_1] [in_1_2]; [in_1_1] [1] afir=dry=10:wet=10 [reverb_1]; [in_1_2] [reverb_1] amix=inputs=2:weights=8 1 [mix_1]; [mix_1] asplit=2 [mix_1_1] [mix_1_2]; [mix_1_1] [2] afir=dry=1:wet=1 [reverb_2]; [mix_1_2] [reverb_2] amix=inputs=2:weights=10 1 [mix_2]; [mix_2] equalizer=f=7710:t=q:w=0.6:g=-6,equalizer=f=33:t=q:w=0.44:g=-10 [out]; [out] alimiter=level_in=1:level_out=1:limit=0.5:attack=5:release=20:level=disabled" -f wav ./piper_cache/${outFile}-${flip_flop ? 'b' : 'a'}.wav`,
+          `ffmpeg -y -f wav -i ./piper_cache/${outFile}-${
+            flip_flop ? 'a' : 'b'
+          }.wav -i ./sfx/SynthImpulse.wav -i ./sfx/RoomImpulse.wav -filter_complex '[0] aresample=${modelRate} [re_1]; [re_1] apad=pad_dur=2 [in_1]; [in_1] asplit=2 [in_1_1] [in_1_2]; [in_1_1] [1] afir=dry=10:wet=10 [reverb_1]; [in_1_2] [reverb_1] amix=inputs=2:weights=8 1 [mix_1]; [mix_1] asplit=2 [mix_1_1] [mix_1_2]; [mix_1_1] [2] afir=dry=1:wet=1 [reverb_2]; [mix_1_2] [reverb_2] amix=inputs=2:weights=10 1 [mix_2]; [mix_2] equalizer=f=7710:t=q:w=0.6:g=-6,equalizer=f=33:t=q:w=0.44:g=-10 [out]; [out] alimiter=level_in=1:level_out=1:limit=0.5:attack=5:release=20:level=disabled' -f wav ./piper_cache/${outFile}-${
+            flip_flop ? 'b' : 'a'
+          }.wav`,
         );
         flip_flop = !flip_flop;
       }
