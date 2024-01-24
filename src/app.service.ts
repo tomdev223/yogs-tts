@@ -116,7 +116,7 @@ export class AppService {
         `ffmpeg -y -i ./piper_cache/${outFile}.wav -af asetrate=${modelRate}*${num_pitch},aresample=${modelRate},atempo=1/${num_pitch} ./piper_cache/${outFile}-b.wav`,
       );
       
-      let flip_flop = false; // Tosses between file-a and file-b
+      let flip_flop = true; // Tosses between file-a and file-b
       if (body.filters?.lizard) {
         await execPromise(
           `ffmpeg -y -f wav -i ./piper_cache/${outFile}-${
@@ -197,8 +197,7 @@ export class AppService {
       let renderingTime = endTime - startTime; // Calculate rendering time
       
       this.logger.warn(`WAV file rendering time: ${renderingTime} ms`); // Log rendering time
-      // return new StreamableFile(file);
-      return file;
+      return new StreamableFile(file);
     } else {
       // If file generation failed, send a warning- this isn't supposed to happen
       this.logger.warn(`${stderr} - ${stdout}`);
