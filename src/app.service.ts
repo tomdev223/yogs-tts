@@ -116,7 +116,7 @@ export class AppService {
         `ffmpeg -y -i ./piper_cache/${outFile}.wav -af asetrate=${modelRate}*${num_pitch},aresample=${modelRate},atempo=1/${num_pitch} ./piper_cache/${outFile}-b.wav`,
       );
       
-      let flip_flop = true; // Tosses between file-a and file-b
+      let flip_flop = false; // Tosses between file-a and file-b
       if (body.filters?.lizard) {
         await execPromise(
           `ffmpeg -y -f wav -i ./piper_cache/${outFile}-${
@@ -190,7 +190,7 @@ export class AppService {
       const file = fs.createReadStream(
         join(
           process.cwd(),
-          `./piper_cache/${outFile}-${flip_flop ? 'a' : 'b'}.wav`,
+          `./piper_cache/${outFile}.wav`,
         ),
       );
       let endTime = Date.now(); // End time recording
