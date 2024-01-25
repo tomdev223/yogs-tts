@@ -202,15 +202,7 @@ export class AppService {
       let renderingTime = endTime - startTime; // Calculate rendering time
       
       this.logger.warn(`Mp3 file rendering time: ${renderingTime} ms`); // Log rendering time
-      // return new StreamableFile(file);
-      // Instead of returning a StreamableFile, return the file path
-      if (fs.existsSync(`./piper_cache/${outFile}.mp3`)) {
-        // ... existing logic ...
-        return `./piper_cache/${outFile}.mp3`;
-      } else {
-        // If file generation failed, return an error message
-        return `${stderr} - ${stdout}`;
-      }
+      return new StreamableFile(file);      
     } else {
       // If file generation failed, send a warning- this isn't supposed to happen
       this.logger.warn(`${stderr} - ${stdout}`);
