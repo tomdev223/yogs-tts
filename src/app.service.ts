@@ -201,7 +201,7 @@ export class AppService {
       let endTime = Date.now(); // End time recording
       let renderingTime = endTime - startTime; // Calculate rendering time
       
-      this.logger.warn(`WAV file rendering time: ${renderingTime} ms`); // Log rendering time
+      this.logger.warn(`Mp3 file rendering time: ${renderingTime} ms`); // Log rendering time
       // return new StreamableFile(file);
       // Instead of returning a StreamableFile, return the file path
       if (fs.existsSync(`./piper_cache/${outFile}.mp3`)) {
