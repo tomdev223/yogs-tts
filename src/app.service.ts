@@ -29,8 +29,7 @@ export class AppService {
     model: string,
     pitch: string,
     body: ttsMessage,
-    res?: Response,
-    auth?: string,
+    auth: string,
   ): Promise<StreamableFile | string> {
     if (auth != (process.env.TTS_AUTHORIZATION_TOKEN ?? 'mysecuretoken')) {
       return 'bad auth';
