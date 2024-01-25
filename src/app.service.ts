@@ -151,7 +151,7 @@ export class AppService {
         await execPromise(
           `ffmpeg -y -f mp3 -i ./piper_cache/${outFile}-${
             flip_flop ? 'a' : 'b'
-          }.mp3 -i ./sfx/SynthImpulse.mp3 -i ./sfx/RoomImpulse.mp3 -filter_complex '[0] aresample=${modelRate} [re_1]; [re_1] apad=pad_len=512 [in_1]; [in_1] asplit=2 [in_1_1] [in_1_2]; [in_1_1] [1] afir=dry=10:wet=10 [reverb_1]; [in_1_2] [reverb_1] amix=inputs=2:weights=8 1 [mix_1]; [mix_1] asplit=2 [mix_1_1] [mix_1_2]; [mix_1_1] [2] afir=dry=1:wet=1 [reverb_2]; [mix_1_2] [reverb_2] amix=inputs=2:weights=10 1 [mix_2]; [mix_2] equalizer=f=7710:t=q:w=0.6:g=-6,equalizer=f=33:t=q:w=0.44:g=-10 [out]; [out] alimiter=level_in=1:level_out=1:limit=0.5:attack=5:release=20:level=disabled' -f mp3 ./piper_cache/${outFile}-${
+          }.mp3 -i ./sfx/SynthImpulse.wav -i ./sfx/RoomImpulse.wav -filter_complex '[0] aresample=${modelRate} [re_1]; [re_1] apad=pad_len=512 [in_1]; [in_1] asplit=2 [in_1_1] [in_1_2]; [in_1_1] [1] afir=dry=10:wet=10 [reverb_1]; [in_1_2] [reverb_1] amix=inputs=2:weights=8 1 [mix_1]; [mix_1] asplit=2 [mix_1_1] [mix_1_2]; [mix_1_1] [2] afir=dry=1:wet=1 [reverb_2]; [mix_1_2] [reverb_2] amix=inputs=2:weights=10 1 [mix_2]; [mix_2] equalizer=f=7710:t=q:w=0.6:g=-6,equalizer=f=33:t=q:w=0.44:g=-10 [out]; [out] alimiter=level_in=1:level_out=1:limit=0.5:attack=5:release=20:level=disabled' -f mp3 ./piper_cache/${outFile}-${
             flip_flop ? 'b' : 'a'
           }.mp3`,
         );
@@ -171,7 +171,7 @@ export class AppService {
         await execPromise(
           `ffmpeg -y -f mp3 -i ./piper_cache/${outFile}-${
             flip_flop ? 'a' : 'b'
-          }.mp3 -i ./sfx/SynthImpulse.mp3 -i ./sfx/RoomImpulse.mp3 -filter_complex '[0:a] asetrate=${modelRate}*0.7,aresample=16000,atempo=1/0.7,lowshelf=g=-20:f=500,highpass=f=500,aphaser=in_gain=1:out_gain=1:delay=3.0:decay=0.4:speed=0.5:type=t [out]; [out]atempo=1.2,volume=15dB [final]; anoisesrc=a=0.01:d=60 [noise]; [final][noise] amix=duration=shortest' -f mp3 ./piper_cache/${outFile}-${
+          }.mp3 -i ./sfx/SynthImpulse.wav -i ./sfx/RoomImpulse.wav -filter_complex '[0:a] asetrate=${modelRate}*0.7,aresample=16000,atempo=1/0.7,lowshelf=g=-20:f=500,highpass=f=500,aphaser=in_gain=1:out_gain=1:delay=3.0:decay=0.4:speed=0.5:type=t [out]; [out]atempo=1.2,volume=15dB [final]; anoisesrc=a=0.01:d=60 [noise]; [final][noise] amix=duration=shortest' -f mp3 ./piper_cache/${outFile}-${
             flip_flop ? 'b' : 'a'
           }.mp3`,
         );
