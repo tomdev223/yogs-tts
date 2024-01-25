@@ -186,9 +186,9 @@ export class AppService {
         );
         flip_flop = !flip_flop;
       }
-      // This command is for converting the file to MP3 with a sample rate of 22050 Hz
+      // This command converts the file to MP3 with a sample rate of 44.1 kHz and a bitrate of 128 kbps
       await execPromise(
-        `ffmpeg -y -i ./piper_cache/${outFile}.mp3 -ar 22050 -ab 320k ./piper_cache/${outFile}-final.mp3`
+        `ffmpeg -y -i ./piper_cache/${outFile}.mp3 -ar 44100 -ab 128k ./piper_cache/${outFile}-final.mp3`
       );
 
       const file = fs.createReadStream(
