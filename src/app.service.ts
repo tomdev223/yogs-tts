@@ -29,7 +29,8 @@ export class AppService {
     model: string,
     pitch: string,
     body: ttsMessage,
-    auth: string,
+    res?: Response,
+    auth?: string,
   ): Promise<StreamableFile | string> {
     if (auth != (process.env.TTS_AUTHORIZATION_TOKEN ?? 'mysecuretoken')) {
       return 'bad auth';
@@ -186,23 +187,20 @@ export class AppService {
         );
         flip_flop = !flip_flop;
       }
-      // This command converts the file to MP3 with a sample rate of 44.1 kHz and a bitrate of 128 kbps
       await execPromise(
         `ffmpeg -y -i ./piper_cache/${outFile}.mp3 -ar 44100 -ab 128k ./piper_cache/${outFile}-final.mp3`
       );
-
       const file = fs.createReadStream(
         join(
           process.cwd(),
-          `./piper_cache/${outFile}-final.mp3`,
+          `./piper_cache/${outFile}.mp3`,
         ),
       );
-      
       let endTime = Date.now(); // End time recording
       let renderingTime = endTime - startTime; // Calculate rendering time
       
-      this.logger.warn(`Mp3 file rendering time: ${renderingTime} ms`); // Log rendering time
-      return new StreamableFile(file);      
+      this.logger.warn(`WAV file rendering time: ${renderingTime} ms`); // Log rendering time
+      return new StreamableFile(file);
     } else {
       // If file generation failed, send a warning- this isn't supposed to happen
       this.logger.warn(`${stderr} - ${stdout}`);
