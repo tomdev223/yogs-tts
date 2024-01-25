@@ -39,7 +39,7 @@ export class AppController {
     const ttsResult = await this.appService.getTTS(model, pitch, body, response, auth);
 
     if (ttsResult instanceof StreamableFile) {
-      response.setHeader('Content-Type', 'audio/wav');
+      response.setHeader('Content-Type', 'audio/mpeg');
     }
 
     return ttsResult;
