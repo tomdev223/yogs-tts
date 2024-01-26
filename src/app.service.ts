@@ -187,10 +187,16 @@ export class AppService {
         );
         flip_flop = !flip_flop;
       }
+      
+      await execPromise(
+        `ffmpeg -i ./piper_cache/${outFile}.wav -vn -ar 44100 -ac 2 -b:a 192k -c:a libmp3lame ./piper_cache/${outFile}.mp3`,
+      );
+      
+
       const file = fs.createReadStream(
         join(
           process.cwd(),
-          `./piper_cache/${outFile}.wav`,
+          `./piper_cache/${outFile}.mp3`,
         ),
       );
       let endTime = Date.now(); // End time recording
