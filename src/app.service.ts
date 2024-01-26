@@ -32,6 +32,8 @@ export class AppService {
     res?: Response,
     auth?: string,
   ): Promise<StreamableFile | string> {
+    
+    fsExtra.emptyDirSync('./piper_cache');
     if (auth != (process.env.TTS_AUTHORIZATION_TOKEN ?? 'mysecuretoken')) {
       return 'bad auth';
     }
