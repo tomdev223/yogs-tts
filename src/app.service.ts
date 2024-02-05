@@ -26,6 +26,7 @@ export class AppService {
   }
 
   async getTTS(
+    language: string,
     model: string,
     pitch: string,
     body: ttsMessage,
@@ -47,6 +48,7 @@ export class AppService {
     // Sanitize
     const cmd_regex = /[^a-zA-Z0-9,._+:@%\/\- ]/g;
     const sanitized_message: string = body.message; // Does not need sanitization- It is going into a JSON file
+    const sanitized_language: string = language.replace(cmd_regex, '');
     const sanitized_model: string = model.replace(cmd_regex, '');
     const sanitized_pitch: number = parseFloat(pitch.replace(cmd_regex, ''));
     const num_pitch: number = Math.min(
@@ -57,14 +59,14 @@ export class AppService {
     // Find the model from the model name
     let modelPath: string;
     let modelRate: number;
-    if (fs.existsSync(`./piper-voices/${sanitized_model}/low/`)) {
-      modelPath = `./piper-voices/${sanitized_model}/low/en_${sanitized_model}-low.onnx`;
+    if (fs.existsSync(`./piper-voices/${sanitized_language}/${sanitized_model}/low/`)) {
+      modelPath = `./piper-voices/${sanitized_language}/${sanitized_model}/low/${sanitized_language}_${sanitized_model}-low.onnx`;
       modelRate = 16000;
-    } else if (fs.existsSync(`./piper-voices/${sanitized_model}/medium/`)) {
-      modelPath = `./piper-voices/${sanitized_model}/medium/en_${sanitized_model}-medium.onnx`;
+    } else if (fs.existsSync(`./piper-voices/${sanitized_language}/${sanitized_model}/medium/`)) {
+      modelPath = `./piper-voices/${sanitized_language}/${sanitized_model}/medium/${sanitized_language}_${sanitized_model}-medium.onnx`;
       modelRate = 22050;
-    } else if (fs.existsSync(`./piper-voices/${sanitized_model}/high/`)) {
-      modelPath = `./piper-voices/${sanitized_model}/high/en_${sanitized_model}-high.onnx`;
+    } else if (fs.existsSync(`./piper-voices/${sanitized_language}/${sanitized_model}/high/`)) {
+      modelPath = `./piper-voices/${sanitized_language}/${sanitized_model}/high/${sanitized_language}_${sanitized_model}-high.onnx`;
       modelRate = 22050;
     }
 

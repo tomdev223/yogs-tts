@@ -28,6 +28,7 @@ export class AppController {
 
   @Post('/tts')
   async getTTS(
+    @Query('language') language: string,
     @Query('model') model: string,
     @Query('pitch') pitch: string,
     @Body() body: ttsMessage,
@@ -36,7 +37,7 @@ export class AppController {
   ): Promise<StreamableFile | string> {
     // return await this.appService.getTTS(model, pitch, body, response, auth);
 
-    const ttsResult = await this.appService.getTTS(model, pitch, body, response, auth);
+    const ttsResult = await this.appService.getTTS(language, model, pitch, body, response, auth);
 
     if (ttsResult instanceof StreamableFile) {
       response.setHeader('Content-Type', 'audio/mpeg');
