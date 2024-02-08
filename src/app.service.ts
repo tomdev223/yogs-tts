@@ -186,7 +186,7 @@ export class AppService {
         await execPromise(
           `ffmpeg -y -f wav -i ./piper_cache/${outFile}-${
             flip_flop ? 'a' : 'b'
-          }.wav -i ./sfx/SynthImpulse.wav -i ./sfx/RoomImpulse.wav -filter_complex '[0:a] asetrate=${modelRate}*0.7,aresample=16000,atempo=1/0.7,lowshelf=g=-20:f=500,highpass=f=500,aphaser=in_gain=1:out_gain=1:delay=3.0:decay=0.4:speed=0.5:type=t [out]; [out]atempo=1.5,volume=15dB [final]; anoisesrc=a=0.01:d=60 [noise]; [final][noise] amix=duration=shortest' -f wav ./piper_cache/${outFile}-${
+          }.wav -i ./sfx/SynthImpulse.wav -i ./sfx/RoomImpulse.wav -filter_complex '[0:a] asetrate=${modelRate}*0.7,aresample=16000,atempo=1/0.7,lowshelf=g=-20:f=500,highpass=f=500,aphaser=in_gain=1:out_gain=1:delay=3.0:decay=0.4:speed=0.5:type=t [out]; [out]atempo=1.8,volume=15dB [final]; anoisesrc=a=0.01:d=60 [noise]; [final][noise] amix=duration=shortest' -f wav ./piper_cache/${outFile}-${
             flip_flop ? 'b' : 'a'
           }.wav`,
         );
