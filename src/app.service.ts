@@ -33,7 +33,6 @@ export class AppService {
     res?: Response,
     auth?: string,
   ): Promise<StreamableFile | string> {
-    
     await fsExtra.emptyDirSync('./piper_cache');
     if (auth != (process.env.TTS_AUTHORIZATION_TOKEN ?? 'mysecuretoken')) {
       return 'bad auth';
@@ -59,13 +58,25 @@ export class AppService {
     // Find the model from the model name
     let modelPath: string;
     let modelRate: number;
-    if (fs.existsSync(`./piper-voices/${sanitized_language}/${sanitized_model}/low/`)) {
+    if (
+      fs.existsSync(
+        `./piper-voices/${sanitized_language}/${sanitized_model}/low/`,
+      )
+    ) {
       modelPath = `./piper-voices/${sanitized_language}/${sanitized_model}/low/${sanitized_language}_${sanitized_model}-low.onnx`;
       modelRate = 16000;
-    } else if (fs.existsSync(`./piper-voices/${sanitized_language}/${sanitized_model}/medium/`)) {
+    } else if (
+      fs.existsSync(
+        `./piper-voices/${sanitized_language}/${sanitized_model}/medium/`,
+      )
+    ) {
       modelPath = `./piper-voices/${sanitized_language}/${sanitized_model}/medium/${sanitized_language}_${sanitized_model}-medium.onnx`;
       modelRate = 22050;
-    } else if (fs.existsSync(`./piper-voices/${sanitized_language}/${sanitized_model}/high/`)) {
+    } else if (
+      fs.existsSync(
+        `./piper-voices/${sanitized_language}/${sanitized_model}/high/`,
+      )
+    ) {
       modelPath = `./piper-voices/${sanitized_language}/${sanitized_model}/high/${sanitized_language}_${sanitized_model}-high.onnx`;
       modelRate = 22050;
     }
@@ -119,7 +130,7 @@ export class AppService {
       await execPromise(
         `ffmpeg -y -i ./piper_cache/${outFile}.wav -af asetrate=${modelRate}*${num_pitch},aresample=${modelRate},atempo=1/${num_pitch} ./piper_cache/${outFile}-b.wav`,
       );
-      
+
       let flip_flop = false; // Tosses between file-a and file-b
       if (body.filters?.lizard) {
         await execPromise(
@@ -175,7 +186,7 @@ export class AppService {
         await execPromise(
           `ffmpeg -y -f wav -i ./piper_cache/${outFile}-${
             flip_flop ? 'a' : 'b'
-          }.wav -i ./sfx/SynthImpulse.wav -i ./sfx/RoomImpulse.wav -filter_complex '[0:a] asetrate=${modelRate}*0.7,aresample=16000,atempo=1/0.7,lowshelf=g=-20:f=500,highpass=f=500,aphaser=in_gain=1:out_gain=1:delay=3.0:decay=0.4:speed=0.5:type=t [out]; [out]atempo=1.2,volume=15dB [final]; anoisesrc=a=0.01:d=60 [noise]; [final][noise] amix=duration=shortest' -f wav ./piper_cache/${outFile}-${
+          }.wav -i ./sfx/SynthImpulse.wav -i ./sfx/RoomImpulse.wav -filter_complex '[0:a] asetrate=${modelRate}*0.7,aresample=16000,atempo=1/0.7,lowshelf=g=-20:f=500,highpass=f=500,aphaser=in_gain=1:out_gain=1:delay=3.0:decay=0.4:speed=0.55:type=t [out]; [out]atempo=1.2,volume=15dB [final]; anoisesrc=a=0.01:d=60 [noise]; [final][noise] amix=duration=shortest' -f wav ./piper_cache/${outFile}-${
             flip_flop ? 'b' : 'a'
           }.wav`,
         );
@@ -191,21 +202,17 @@ export class AppService {
         );
         flip_flop = !flip_flop;
       }
-      
+
       await execPromise(
         `ffmpeg -i ./piper_cache/${outFile}.wav -vn -ar 44100 -ac 2 -b:a 192k -c:a libmp3lame ./piper_cache/${outFile}.mp3`,
       );
-      
 
       const file = fs.createReadStream(
-        join(
-          process.cwd(),
-          `./piper_cache/${outFile}.mp3`,
-        ),
+        join(process.cwd(), `./piper_cache/${outFile}.mp3`),
       );
       let endTime = Date.now(); // End time recording
       let renderingTime = endTime - startTime; // Calculate rendering time
-      
+
       this.logger.warn(`WAV file rendering time: ${renderingTime} ms`); // Log rendering time
       return new StreamableFile(file);
     } else {
