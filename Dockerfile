@@ -147,7 +147,7 @@ COPY --from=build /usr/src/app/piper-voices/ ./piper-voices/
 COPY --from=build /usr/src/app/sfx/ ./sfx/
 
 # Expose the port that the application listens on.
-EXPOSE 8133
+EXPOSE 6006
 
 # Run the application.
 CMD npm run start:prod
